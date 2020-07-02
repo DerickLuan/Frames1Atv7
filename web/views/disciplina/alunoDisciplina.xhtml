@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/template/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="conteudo">
+        <h:form class="form-inline" style="margin-top: 2%">
+            <div class="form-group col-md-6" onload="#{disciplinaController.buscar()}">
+                    <label for="disciplina">Disciplina</label>
+                    <h:selectOneMenu id="disciplina" class="form-control" value="#{disciplinaController.disciplina.idDisciplina}">
+                        <f:selectItems value="#{disciplinaController.listaDeDisciplina}" var="disciplina" itemValue="#{disciplina.idDisciplina}" 
+                                       itemLabel="#{disciplina.nome}"/>
+                        <f:ajax event="change" listener="#{disciplinaController.buscarPorID()}" render="disciplina" execute="@this"/>
+                   </h:selectOneMenu>
+                </div>
+            <h:commandButton class="btn btn-outline-success mb-2" value="Atualizar" action="#{disciplinaController.buscarPorID()}"/>
+        
+            
+            <table id="disciplina" class="table table-striped table-hover" style="margin-top: 3%" >
+                <thead class="thead-dark"> 
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Carga Horaria</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Professor</th>
+                    <th scope="col">Area</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>#{disciplinaController.disciplina.idDisciplina}</td>
+                    <td>#{disciplinaController.disciplina.nome}</td>
+                    <td>#{disciplinaController.disciplina.cargaHorariaTotal}</td>
+                    <td>#{disciplinaController.disciplina.descricao}</td>
+                    <td>#{disciplinaController.disciplina.professor.nome}</td>
+                    <td>#{disciplinaController.disciplina.area.descricao}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <table class="table table-striped table-hover" style="margin-top: 3%">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">E-Mail</th>
+                    <th scope="col">Idade</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Cidade</th>
+                    <th scope="col">Remover</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ui:repeat value="#{disciplinaController.alunos}" var="aluno">
+                    <tr>
+                        <td>#{aluno.idpessoa}</td>
+                        <td>#{aluno.nome}</td>
+                        <td>#{aluno.email}</td>
+                        <td>#{aluno.idade}</td>
+                        <td>#{aluno.estado.uf}</td>
+                        <td>#{aluno.cidade.nome}</td>
+                        <td>
+                            <h:form>
+                                <h:commandButton class="btn btn-danger" value="Remover" 
+                                                 onclick="return confirm('Deseja realmente remover aluno?')" 
+                                                 action= "#{disciplinaController.remover(aluno.idpessoa)}"/>
+                            </h:form>
+                        </td>
+                    </tr>
+                </ui:repeat> 
+            </tbody>
+        </table>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

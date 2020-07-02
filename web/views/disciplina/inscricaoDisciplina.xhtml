@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/template/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="conteudo">
+        <div style="margin-bottom: 2%">
+            <h3>Inscrição</h3>
+        </div>
+        <h:form>
+            
+            <div class="form-row">
+                <div class="form-group col-md-6" onload="#{disciplinaController.buscar()}">
+                    <label for="disciplina">Disciplina</label>
+                    <h:selectOneMenu id="disciplina" class="form-control" value="#{disciplinaController.disciplina.idDisciplina}">
+                        <f:selectItems value="#{disciplinaController.listaDeDisciplina}" var="disciplina" itemValue="#{disciplina.idDisciplina}" 
+                                       itemLabel="#{disciplina.nome}"/>
+                   </h:selectOneMenu>
+                </div>
+                
+                <div class="form-group col-md-6" onload="#{alunoController.buscarTodos()}">
+                    <label for="aluno">Alunos</label>
+                    <h:selectOneMenu id="idAluno" class="form-control" value="#{disciplinaController.aluno.idpessoa}">
+                        <f:selectItems value="#{alunoController.listaDeAlunos}" var="aluno" itemValue="#{aluno.idpessoa}" 
+                                       itemLabel="#{aluno.nome}"/>
+                   </h:selectOneMenu>
+                </div>
+            </div>
+            
+            <h:commandButton class="btn btn-success" value="Relacionar" action="#{disciplinaController.inscricao()}" />
+        </h:form>
+    </ui:define>
+</ui:composition>
+
